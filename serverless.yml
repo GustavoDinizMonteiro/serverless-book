@@ -1,0 +1,39 @@
+org: handicappedwhale
+console: true
+service: cupping
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  graphql:
+    handler: handler.graphqlHandler
+    memorySize: 128
+    events:
+      - http:
+          path: graphql
+          method: get
+      - http:
+          path: graphql
+          method: post 
+  hello:
+    handler: handler.hello
+    memorySize: 128
+    events:
+      - http:
+          path: cupping
+          method: post
+      - httpApi:
+          path: /cupping
+          method: any
+      - http:
+          path: cupping/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+
